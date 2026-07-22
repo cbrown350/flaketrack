@@ -141,9 +141,17 @@ function writePruned(workspace: string, historyFile: string, kept: RunRecord[]):
 
 function parseArgs(argv: string[]): Record<string, string> {
   const out: Record<string, string> = {};
-  for (const arg of argv) {
-    const m = arg.match(/^--([^=]+)=(.*)$/);
-    if (m) out[m[1]] = m[2];
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    const eq = arg.match(/^--([^=]+)=(.*)$/);
+    if (eq) {
+      out[eq[1]] = eq[2];
+      continue;
+    }
+    const space = arg.match(/^--(.+)$/);
+    if (space && i + 1 < argv.length && !argv[i + 1].startsWith('--')) {
+      out[space[1]] = argv[++i];
+    }
   }
   return out;
 }

@@ -1,0 +1,382 @@
+{
+  "summary": {
+    "totalTests": 37,
+    "flakyTests": 0,
+    "totalRuns": 4,
+    "windowDays": 90,
+    "generatedAt": "2026-07-22T22:15:12.302Z"
+  },
+  "flaky": [],
+  "lowConfidence": [
+    {
+      "key": "tests/dashboard.test.ts#dashboardData > ranks flaky tests by fail rate",
+      "className": "tests/dashboard.test.ts",
+      "name": "dashboardData > ranks flaky tests by fail rate",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/dashboard.test.ts#dashboardData > computes summary stats (total tests, flaky count, total runs)",
+      "className": "tests/dashboard.test.ts",
+      "name": "dashboardData > computes summary stats (total tests, flaky count, total runs)",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/dashboard.test.ts#dashboardData > surfaces low-confidence tests separately from flaky",
+      "className": "tests/dashboard.test.ts",
+      "name": "dashboardData > surfaces low-confidence tests separately from flaky",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/dashboard.test.ts#dashboardData > honors the window cutoff",
+      "className": "tests/dashboard.test.ts",
+      "name": "dashboardData > honors the window cutoff",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/dashboard.test.ts#buildDashboard > renders a complete HTML document with the flaky test in it",
+      "className": "tests/dashboard.test.ts",
+      "name": "buildDashboard > renders a complete HTML document with the flaky test in it",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/dashboard.test.ts#buildDashboard > renders a graceful empty state when there is no flakiness",
+      "className": "tests/dashboard.test.ts",
+      "name": "buildDashboard > renders a graceful empty state when there is no flakiness",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/dashboard.test.ts#buildDashboard > escapes a malicious test name to prevent XSS",
+      "className": "tests/dashboard.test.ts",
+      "name": "buildDashboard > escapes a malicious test name to prevent XSS",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/detect.test.ts#detectFlakes > flags a test with failure rate above threshold",
+      "className": "tests/detect.test.ts",
+      "name": "detectFlakes > flags a test with failure rate above threshold",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/detect.test.ts#detectFlakes > marks low-traffic tests as lowConfidence, not flaky",
+      "className": "tests/detect.test.ts",
+      "name": "detectFlakes > marks low-traffic tests as lowConfidence, not flaky",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/detect.test.ts#detectFlakes > excludes skipped runs from numerator and denominator",
+      "className": "tests/detect.test.ts",
+      "name": "detectFlakes > excludes skipped runs from numerator and denominator",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/detect.test.ts#detectFlakes > respects the rolling window (drops old runs)",
+      "className": "tests/detect.test.ts",
+      "name": "detectFlakes > respects the rolling window (drops old runs)",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/detect.test.ts#detectFlakes > counts errored as failure-equivalent",
+      "className": "tests/detect.test.ts",
+      "name": "detectFlakes > counts errored as failure-equivalent",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/detect.test.ts#topFlakiest > sorts by flake rate descending and limits results",
+      "className": "tests/detect.test.ts",
+      "name": "topFlakiest > sorts by flake rate descending and limits results",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#issueTitle / titleToKey round-trip > round-trips a test key",
+      "className": "tests/digest.test.ts",
+      "name": "issueTitle / titleToKey round-trip > round-trips a test key",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#issueTitle / titleToKey round-trip > rejects non-flaky titles",
+      "className": "tests/digest.test.ts",
+      "name": "issueTitle / titleToKey round-trip > rejects non-flaky titles",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#issueBody > includes rate, samples, and the machine-readable key marker",
+      "className": "tests/digest.test.ts",
+      "name": "issueBody > includes rate, samples, and the machine-readable key marker",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#issueBody > flags low confidence",
+      "className": "tests/digest.test.ts",
+      "name": "issueBody > flags low confidence",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > opens one issue per flaky test that has no tracking issue",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > opens one issue per flaky test that has no tracking issue",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > does NOT update an issue updated less than 24h ago",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > does NOT update an issue updated less than 24h ago",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > updates an issue last touched more than 24h ago",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > updates an issue last touched more than 24h ago",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > closes an issue for a test recovered >14 days with no recent failures",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > closes an issue for a test recovered >14 days with no recent failures",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > does not close an issue for a test whose last failure is within 14 days",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > does not close an issue for a test whose last failure is within 14 days",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > opens + updates in the same pass (mixed state)",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > opens + updates in the same pass (mixed state)",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/git-writer.test.ts#GitWriter > initializes the orphan branch and appends a record",
+      "className": "tests/git-writer.test.ts",
+      "name": "GitWriter > initializes the orphan branch and appends a record",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/git-writer.test.ts#GitWriter > retries on non-fast-forward and succeeds once the branch advances",
+      "className": "tests/git-writer.test.ts",
+      "name": "GitWriter > retries on non-fast-forward and succeeds once the branch advances",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/git-writer.test.ts#GitWriter > DROPS the write after exhausting retries — never force-pushes",
+      "className": "tests/git-writer.test.ts",
+      "name": "GitWriter > DROPS the write after exhausting retries — never force-pushes",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/git-writer.test.ts#GitWriter > appends multiple records sequentially without losing any",
+      "className": "tests/git-writer.test.ts",
+      "name": "GitWriter > appends multiple records sequentially without losing any",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/junit.test.ts#parseJUnitXml > parses Jest-style output",
+      "className": "tests/junit.test.ts",
+      "name": "parseJUnitXml > parses Jest-style output",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/junit.test.ts#parseJUnitXml > parses surefire (Java/Maven) output including errors",
+      "className": "tests/junit.test.ts",
+      "name": "parseJUnitXml > parses surefire (Java/Maven) output including errors",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/junit.test.ts#parseJUnitXml > parses pytest output",
+      "className": "tests/junit.test.ts",
+      "name": "parseJUnitXml > parses pytest output",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/junit.test.ts#parseJUnitXml > converts seconds to milliseconds",
+      "className": "tests/junit.test.ts",
+      "name": "parseJUnitXml > converts seconds to milliseconds",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/junit.test.ts#parseJUnitXml > is robust to an empty document",
+      "className": "tests/junit.test.ts",
+      "name": "parseJUnitXml > is robust to an empty document",
+      "flakeRate": 0,
+      "sampleSize": 4,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > updates an issue updated exactly 24h ago (>= boundary)",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > updates an issue updated exactly 24h ago (>= boundary)",
+      "flakeRate": 0,
+      "sampleSize": 2,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > continues gracefully when listForRepo fails (opens new issues anyway)",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > continues gracefully when listForRepo fails (opens new issues anyway)",
+      "flakeRate": 0,
+      "sampleSize": 2,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/digest.test.ts#syncIssues > closes an issue for a test that has vanished from history entirely",
+      "className": "tests/digest.test.ts",
+      "name": "syncIssues > closes an issue for a test that has vanished from history entirely",
+      "flakeRate": 0,
+      "sampleSize": 2,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/git-writer.test.ts#GitWriter > commits even when no git identity is configured (GitHub Actions runner)",
+      "className": "tests/git-writer.test.ts",
+      "name": "GitWriter > commits even when no git identity is configured (GitHub Actions runner)",
+      "flakeRate": 0,
+      "sampleSize": 2,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    },
+    {
+      "key": "tests/git-writer.test.ts#GitWriter > fetches an existing remote data branch instead of re-initing (dogfood scenario)",
+      "className": "tests/git-writer.test.ts",
+      "name": "GitWriter > fetches an existing remote data branch instead of re-initing (dogfood scenario)",
+      "flakeRate": 0,
+      "sampleSize": 2,
+      "isFlaky": false,
+      "lowConfidence": true,
+      "recentFailures": []
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+  <testsuite name="tests/test_calc.py" errors="0" failures="1" skipped="1" tests="3" time="0.22">
+    <testcase name="test_add" classname="tests.test_calc" file="tests/test_calc.py" line="4" time="0.001" />
+    <testcase name="test_fail" classname="tests.test_calc" file="tests/test_calc.py" line="9" time="0.003">
+      <failure message="assert 1 == 2">assert 1 == 2</failure>
+    </testcase>
+    <testcase name="test_skip" classname="tests.test_calc" file="tests/test_calc.py" line="15" time="0.000">
+      <skipped message="reason" type="pytest.skip" />
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.CalcTest" tests="4" failures="1" errors="1" skipped="1" time="0.31">
+  <testcase name="adds" classname="com.example.CalcTest" time="0.01"></testcase>
+  <testcase name="divides" classname="com.example.CalcTest" time="0.02">
+    <failure type="AssertionError">expected 5 got 4</failure>
+  </testcase>
+  <testcase name="explodes" classname="com.example.CalcTest" time="0.04">
+    <error type="NullPointerException">npe</error>
+  </testcase>
+  <testcase name="slow" classname="com.example.CalcTest" time="0">
+    <skipped/>
+  </testcase>
+</testsuite>

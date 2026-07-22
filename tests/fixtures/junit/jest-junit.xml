@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="1" errors="0" time="0.42">
+  <testsuite name="src/app.test.js" tests="3" failures="1" errors="0" time="0.42">
+    <testcase classname="app adds two numbers" name="adds two numbers" time="0.012"></testcase>
+    <testcase classname="app subtracts" name="subtracts" time="0.005">
+      <failure message="Expected 3 received 2"></failure>
+    </testcase>
+    <testcase classname="app skips slow" name="skips slow" time="0">
+      <skipped></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

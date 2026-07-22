@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # NOTE: SHA-pin these in a real release. Tags are mutable and unsafe
+      # post-CVE-2025-30066. Replace <pin-sha> with the resolved commit.
+      - uses: actions/checkout@<pin-sha>
+      - uses: actions/setup-node@<pin-sha>
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@<pin-sha>
+        with:
+          name: dist
+          path: dist/

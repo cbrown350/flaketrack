@@ -1,0 +1,37 @@
+name: Dashboard
+
+# Nightly rebuild of the static flakiness dashboard from committed history.
+# Also prunes history older than the retention window (gate condition #4:
+# bounded history on every tier — no "unlimited" anywhere).
+
+on:
+  schedule:
+    - cron: '0 3 * * *'   # 03:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@<pin-sha>
+        with:
+          fetch-depth: 0   # need full history to read the data branch
+      - uses: actions/setup-node@<pin-sha>
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run build
+      - name: Rebuild dashboard + prune old history
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node dist/dashboard.js --window-days 90
+      - uses: actions/configure-pages@<pin-sha>
+      - uses: actions/upload-pages-artifact@<pin-sha>
+        with:
+          path: dashboard-out
+      - uses: actions/deploy-pages@<pin-sha>

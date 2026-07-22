@@ -1,0 +1,32 @@
+name: 'FlakeTrack'
+description: 'Detect, trend, and quarantine flaky tests — entirely inside your GitHub repo. No account, no server, no external service.'
+author: 'cbrown350'
+branding:
+  icon: 'activity'
+  color: 'blue'
+
+inputs:
+  junit-paths:
+    description: 'Glob pattern(s) for JUnit XML report files. Comma-separated. Default: any **/junit*.xml or **/TEST-*.xml in the report directory.'
+    required: false
+    default: ''
+  data-branch:
+    description: 'Branch used to store flakiness history (orphan branch). Default: flaketrack-data.'
+    required: false
+    default: 'flaketrack-data'
+  flake-threshold:
+    description: 'Fail rate above which a test is flagged flaky (0-1). Default: 0.05 (5%).'
+    required: false
+    default: '0.05'
+  min-runs:
+    description: 'Minimum runs in the rolling window before a test is evaluated (confidence floor). Default: 20.'
+    required: false
+    default: '20'
+  window-days:
+    description: 'Rolling window in days for flake-rate computation. Default: 90.'
+    required: false
+    default: '90'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

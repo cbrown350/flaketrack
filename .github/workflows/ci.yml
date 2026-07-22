@@ -62,6 +62,9 @@ jobs:
           path: reports
       - name: Run FlakeTrack on its own test output
         uses: ./
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
         with:
           junit-paths: 'reports/**/*.xml'
           data-branch: flaketrack-data

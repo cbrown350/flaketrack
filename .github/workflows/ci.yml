@@ -61,7 +61,9 @@ jobs:
           name: junit-reports
           path: reports
       - name: Run FlakeTrack on its own test output
-        uses: ./
+        # Pin to the released version rather than `uses: ./` so a broken build
+        # can't mask its own bugs — the dogfood must run the same code users get.
+        uses: cbrown350/flaketrack@v0.1.0
         env:
           GITHUB_SHA: ${{ github.sha }}
           GITHUB_RUN_ID: ${{ github.run_id }}

@@ -1,6 +1,6 @@
 {
   "name": "flaketrack",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Zero-backend flaky-test detection, trending, and quarantine for GitHub Actions. Runs entirely inside your repo.",
   "main": "dist/index.js",
@@ -16,9 +16,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0",
-    "fast-xml-parser": "^4.5.2",
+    "@actions/core": "3.0.1",
+    "@actions/github": "9.1.1",
+    "fast-xml-parser": "5.10.1",
     "glob": "^11.1.0"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "prettier": "^3.4.0",
     "typescript": "^5.6.0",
     "typescript-eslint": "^8.65.0",
-    "vitest": "^2.1.0"
+    "vitest": "4.1.10"
   },
   "engines": {
     "node": ">=20"

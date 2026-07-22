@@ -19,10 +19,10 @@ any secret beyond the ambient `GITHUB_TOKEN` the Action run already has.
 ## Data
 
 - All test history is committed to a branch **in your own repository**.
-- No data leaves your GitHub org. There is no FlakeTrack server. There is no
-  FlakeTrack account.
-- The flakiness dashboard is built from your own committed history and published
-  to **your own** GitHub Pages site.
+- There is no FlakeTrack server, account, or external database. GitHub stores
+  the history, Issues, and any Pages dashboard under your repository's own
+  visibility settings; public repositories, Issues, or Pages can expose test
+  identifiers and results.
 
 ## Supply-chain hygiene
 

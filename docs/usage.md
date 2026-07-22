@@ -21,7 +21,7 @@ ingests every match.
 
 | Input | Default | Purpose |
 |---|---|---|
-| `junit-paths` | `**/junit*.xml` | Comma-separated glob(s) for JUnit XML files. |
+| `junit-paths` | `**/junit*.xml,**/TEST-*.xml` | Comma-separated glob(s) for JUnit XML files. |
 | `data-branch` | `flaketrack-data` | Orphan branch where run history is stored. |
 | `flake-threshold` | `0.05` | Fail rate above which a test is flagged flaky (0–1). |
 | `min-runs` | `20` | Minimum runs in the window before a test is evaluated (confidence floor). |

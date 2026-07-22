@@ -63,7 +63,7 @@ jobs:
       - name: Run FlakeTrack on its own test output
         # Pin to the released version rather than `uses: ./` so a broken build
         # can't mask its own bugs — the dogfood must run the same code users get.
-        uses: cbrown350/flaketrack@v0.1.0
+        uses: cbrown350/flaketrack@5575f6a1fe9d25f5cf2796897a1113ab99743e91
         env:
           GITHUB_SHA: ${{ github.sha }}
           GITHUB_RUN_ID: ${{ github.run_id }}

@@ -22,7 +22,7 @@ import type { RunRecord, TestStatus } from './types';
  * branch and emits artifacts. (Gate condition #6 + cycle-2 CTO scoping.)
  */
 export async function run(): Promise<void> {
-  const junitGlob = core.getInput('junit-paths') || '**/junit*.xml';
+  const junitGlob = core.getInput('junit-paths') || '**/junit*.xml,**/TEST-*.xml';
   const threshold = Number(core.getInput('flake-threshold') || 0.05);
   const minRuns = Number(core.getInput('min-runs') || 20);
   const windowDays = Number(core.getInput('window-days') || 90);

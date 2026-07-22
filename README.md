@@ -1,8 +1,10 @@
 # FlakeTrack
 
-**Detect, trend, and quarantine flaky tests — entirely inside your GitHub repo.**
+**Detect, trend, and quarantine flaky tests using GitHub resources you control.**
 
-No account. No server. No external service. No data leaves your repository.
+No additional account. No server. No FlakeTrack-hosted database. GitHub stores the
+history in your repository; its visibility follows your repository, Issue, and
+Pages settings.
 
 FlakeTrack is a GitHub Action that runs after your test step, ingests JUnit XML,
 detects flaky tests, and stores the full history in your own repo — on a branch,
@@ -21,11 +23,11 @@ runner, writing to your repo.
 
 ```yaml
 # .github/workflows/flaketrack.yml
+# Run this only on trusted branches. Keep PR validation read-only.
 name: FlakeTrack
 on:
-  workflow_run:
-    workflows: ["Test"]
-    types: [completed]
+  push:
+    branches: [main]
 
 permissions:
   contents: write
@@ -35,13 +37,15 @@ jobs:
   track:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@<pinned-sha>
-      - name: Download test reports
-        uses: actions/download-artifact@<pinned-sha>
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          name: junit-reports
-          path: reports
-      - uses: cbrown350/flaketrack@<pinned-sha>
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run tests and write a JUnit report
+        run: npm test -- --reporter=junit --outputFile=reports/junit.xml
+      - uses: cbrown350/flaketrack@<full-40-char-sha>
         with:
           junit-paths: 'reports/**/*.xml'
 ```
@@ -66,8 +70,10 @@ options, and the quarantine skip-list artifact.
 
 FlakeTrack is **not** read-only. It writes to your repo. Full details in
 [`SECURITY.md`](SECURITY.md), but in short: `contents: write` (to the
-`flaketrack-data` branch) and `issues: write` (to manage tracking issues). No
-data leaves your org. Pin FlakeTrack to a commit SHA in your workflow.
+`flaketrack-data` branch) and `issues: write` (to manage tracking issues). GitHub
+stores that data under your repository's own visibility settings; public Issues
+or Pages can expose test identifiers. Pin FlakeTrack to a commit SHA in your
+workflow. Do not grant this write token to jobs that execute untrusted fork code.
 
 ## What FlakeTrack does *not* do (v0)
 

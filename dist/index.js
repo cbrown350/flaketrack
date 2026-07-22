@@ -41592,6 +41592,7 @@ var github = __nccwpck_require__(3228);
  *   - not flaky for 14 days  -> close with a summary comment
  */
 const LABEL = 'flaketrack';
+const LABEL_COLOR = 'B60D0D';
 const UPDATE_INTERVAL_MS = 24 * 60 * 60 * 1000; // 1 day
 const RECOVERY_WINDOW_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
 /**
@@ -41603,6 +41604,7 @@ async function syncIssues(tracker, assessments, opts = {}) {
     const now = opts.now ?? new Date();
     const recoveryWindowMs = opts.recoveryWindowMs ?? RECOVERY_WINDOW_MS;
     const updateIntervalMs = opts.updateIntervalMs ?? UPDATE_INTERVAL_MS;
+    await ensureLabel(tracker);
     const existing = await tracker.octokit.rest.issues
         .listForRepo({
         owner: tracker.owner,
@@ -41704,6 +41706,28 @@ async function safeCreate(t, title, body) {
     }
     catch (e) {
         core.warning(`Failed to open issue "${title}": ${e.message}`);
+    }
+}
+/**
+ * Ensure the `flaketrack` label exists before we list/create issues by label.
+ * GitHub returns 404 (not an empty list) when filtering listForRepo by a label
+ * that doesn't exist, which the catch in syncIssues turns into a silent no-op —
+ * so on a fresh install no issues are ever opened. getOrCreate is idempotent.
+ */
+async function ensureLabel(t) {
+    if (!t.octokit.rest.labels)
+        return;
+    try {
+        await t.octokit.rest.labels.getOrCreate({
+            owner: t.owner,
+            repo: t.repo,
+            name: LABEL,
+            color: LABEL_COLOR,
+            description: 'Tracked by FlakeTrack — flaky test under observation.',
+        });
+    }
+    catch (e) {
+        core.warning(`Failed to ensure label "${LABEL}": ${e.message}`);
     }
 }
 async function safeUpdate(t, number, body) {

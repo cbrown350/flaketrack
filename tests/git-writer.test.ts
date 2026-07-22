@@ -144,6 +144,37 @@ describe('GitWriter', () => {
     expect(lines.map((l) => JSON.parse(l).runId)).toEqual(['0', '1', '2', '3', '4']);
   });
 
+  it('commits even when no git identity is configured (GitHub Actions runner)', async () => {
+    // Reproduce the dogfood failure: a fresh actions/checkout of main has no
+    // user.name/user.email set anywhere, so `git commit` fatals with
+    // "empty ident name not allowed". The writer must self-provision identity.
+    git(['config', '--unset', 'user.name'], repoDir);
+    git(['config', '--unset', 'user.email'], repoDir);
+    // Belt-and-suspenders: clear any global identity env git might fall back to.
+    const saved = { ...process.env };
+    for (const k of ['GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL']) {
+      delete process.env[k];
+    }
+    process.env.GITHUB_ACTOR = 'octocat';
+    try {
+      const w = new GitWriter({
+        repoDir,
+        push: () => ({ ok: true }),
+        fetch: () => {},
+        sleep: async () => {},
+      });
+      const ok = await w.appendRun(record(0));
+      expect(ok).toBe(true);
+      const history = readHistory();
+      expect(history).toContain('"runId":"0"');
+      // Identity was scoped to this repo only, and derived from GITHUB_ACTOR.
+      expect(git(['config', 'user.name'], repoDir)).toBe('octocat');
+      expect(git(['config', 'user.email'], repoDir)).toBe('octocat@users.noreply.github.com');
+    } finally {
+      process.env = saved;
+    }
+  });
+
   it('fetches an existing remote data branch instead of re-initing (dogfood scenario)', async () => {
     // Simulate a fresh actions/checkout of main: the flaketrack-data branch
     // exists on the remote (from a prior run) but NOT as a local ref. The

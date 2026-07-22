@@ -41785,6 +41785,28 @@ class GitWriter {
         this.pushFn = opts.push ?? ((b, sha) => this.defaultPush(b, sha));
         this.fetchFn = opts.fetch ?? ((b) => this.defaultFetch(b));
         this.sleepFn = opts.sleep ?? ((n) => defaultSleep(n));
+        this.ensureIdentity();
+    }
+    /**
+     * Guarantee a commit identity exists for this repo. On GitHub Actions runners
+     * no git user identity is configured by default, so `git commit` in our
+     * detached worktree fails with "empty ident name not allowed" — which is
+     * exactly what happened in the first dogfood run. We scope the identity to
+     * this repo only (never touch the user's global config) and prefer the
+     * workflow actor when available.
+     */
+    ensureIdentity() {
+        const actor = process.env.GITHUB_ACTOR?.trim() || 'flaketrack-bot';
+        const email = process.env.GITHUB_ACTOR
+            ? `${actor}@users.noreply.github.com`
+            : 'flaketrack@users.noreply.github.com';
+        try {
+            this.git(['config', 'user.name', actor], this.repoDir);
+            this.git(['config', 'user.email', email], this.repoDir);
+        }
+        catch {
+            // best-effort; if config is locked we'll surface the real error at commit
+        }
     }
     getLogs() {
         return [...this.logs];

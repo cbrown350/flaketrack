@@ -61,15 +61,21 @@ export function readHistory(
 }
 
 function readBranchBlob(workspace: string, branch: string, path: string): string | null {
-  try {
-    return execFileSync('git', ['show', `${branch}:${path}`], {
-      cwd: workspace,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    });
-  } catch {
-    return null;
+  // actions/checkout fetches all branches under refs/remotes/origin/* but only
+  // checks out HEAD, so a local `flaketrack-data` ref may not exist even though
+  // origin/flaketrack-data does. Try local first, then the remote-tracking ref.
+  for (const ref of [branch, `${'origin'}/${branch}`]) {
+    try {
+      return execFileSync('git', ['show', `${ref}:${path}`], {
+        cwd: workspace,
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+      });
+    } catch {
+      // try next ref
+    }
   }
+  return null;
 }
 
 function readLocalFile(path: string): string | null {

@@ -346,16 +346,22 @@ function readHistory(workspace, branch, historyFile) {
     return parseJsonl(raw);
 }
 function readBranchBlob(workspace, branch, path) {
-    try {
-        return (0,external_node_child_process_namespaceObject.execFileSync)('git', ['show', `${branch}:${path}`], {
-            cwd: workspace,
-            encoding: 'utf8',
-            stdio: ['ignore', 'pipe', 'ignore'],
-        });
+    // actions/checkout fetches all branches under refs/remotes/origin/* but only
+    // checks out HEAD, so a local `flaketrack-data` ref may not exist even though
+    // origin/flaketrack-data does. Try local first, then the remote-tracking ref.
+    for (const ref of [branch, `${'origin'}/${branch}`]) {
+        try {
+            return (0,external_node_child_process_namespaceObject.execFileSync)('git', ['show', `${ref}:${path}`], {
+                cwd: workspace,
+                encoding: 'utf8',
+                stdio: ['ignore', 'pipe', 'ignore'],
+            });
+        }
+        catch {
+            // try next ref
+        }
     }
-    catch {
-        return null;
-    }
+    return null;
 }
 function readLocalFile(path) {
     return (0,external_node_fs_namespaceObject.existsSync)(path) ? (0,external_node_fs_namespaceObject.readFileSync)(path, 'utf8') : null;

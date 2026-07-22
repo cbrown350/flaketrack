@@ -41879,10 +41879,26 @@ class GitWriter {
         }
     }
     ensureDataBranch() {
-        const refs = this.git(['branch', '--list', this.branch], this.repoDir);
-        if (refs.includes(this.branch))
+        const localRefs = this.git(['branch', '--list', this.branch], this.repoDir);
+        if (localRefs.includes(this.branch))
             return;
+        // Branch exists on the remote but not locally (common after a fresh
+        // actions/checkout of main). Fetch it into a local ref instead of
+        // initing a new orphan — re-initing would collide on push.
+        if (this.remoteHasBranch()) {
+            this.git(['fetch', this.remote, `${this.branch}:${this.branch}`], this.repoDir);
+            return;
+        }
         this.initOrphan();
+    }
+    remoteHasBranch() {
+        try {
+            const out = this.git(['ls-remote', this.remote, this.branch], this.repoDir);
+            return out.trim().length > 0;
+        }
+        catch {
+            return false;
+        }
     }
     initOrphan() {
         const wt = (0,external_node_fs_namespaceObject.mkdtempSync)((0,external_node_path_namespaceObject.join)((0,external_node_os_namespaceObject.tmpdir)(), 'flaketrack-init-'));

@@ -153,9 +153,25 @@ export class GitWriter {
   }
 
   private ensureDataBranch(): void {
-    const refs = this.git(['branch', '--list', this.branch], this.repoDir);
-    if (refs.includes(this.branch)) return;
+    const localRefs = this.git(['branch', '--list', this.branch], this.repoDir);
+    if (localRefs.includes(this.branch)) return;
+    // Branch exists on the remote but not locally (common after a fresh
+    // actions/checkout of main). Fetch it into a local ref instead of
+    // initing a new orphan — re-initing would collide on push.
+    if (this.remoteHasBranch()) {
+      this.git(['fetch', this.remote, `${this.branch}:${this.branch}`], this.repoDir);
+      return;
+    }
     this.initOrphan();
+  }
+
+  private remoteHasBranch(): boolean {
+    try {
+      const out = this.git(['ls-remote', this.remote, this.branch], this.repoDir);
+      return out.trim().length > 0;
+    } catch {
+      return false;
+    }
   }
 
   private initOrphan(): void {

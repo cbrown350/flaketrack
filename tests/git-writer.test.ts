@@ -143,4 +143,38 @@ describe('GitWriter', () => {
     expect(lines).toHaveLength(5);
     expect(lines.map((l) => JSON.parse(l).runId)).toEqual(['0', '1', '2', '3', '4']);
   });
+
+  it('fetches an existing remote data branch instead of re-initing (dogfood scenario)', async () => {
+    // Simulate a fresh actions/checkout of main: the flaketrack-data branch
+    // exists on the remote (from a prior run) but NOT as a local ref. The
+    // writer must fetch it, not try to initOrphan again (which would collide).
+    const w1 = new GitWriter({
+      repoDir,
+      push: () => ({ ok: true }),
+      fetch: (b) => {
+        try { git(['fetch', '-q', 'origin', b], repoDir); } catch { /* */ }
+      },
+      sleep: async () => {},
+    });
+    await w1.appendRun(record(0));
+    git(['push', '-q', 'origin', 'flaketrack-data'], repoDir);
+    // Wipe the local ref to mimic a fresh checkout of main.
+    git(['branch', '-D', 'flaketrack-data'], repoDir);
+    expect(git(['branch', '--list', 'flaketrack-data'], repoDir)).not.toContain('flaketrack-data');
+
+    const w2 = new GitWriter({
+      repoDir,
+      push: () => ({ ok: true }),
+      fetch: (b) => {
+        try { git(['fetch', '-q', 'origin', b], repoDir); } catch { /* */ }
+      },
+      sleep: async () => {},
+    });
+    const ok = await w2.appendRun(record(1));
+    expect(ok).toBe(true);
+    const history = readHistory();
+    const lines = history.trim().split('\n');
+    expect(lines).toHaveLength(2);
+    expect(lines.map((l) => JSON.parse(l).runId)).toEqual(['0', '1']);
+  });
 });

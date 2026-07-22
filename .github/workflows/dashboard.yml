@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0   # need full history to read the data branch
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: '20'
+          node-version: '24'
       - run: npm ci
       - run: npm run build:dashboard
       - name: Rebuild dashboard + prune old history

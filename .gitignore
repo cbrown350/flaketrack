@@ -1,6 +1,9 @@
 node_modules/
-dist/
 *.log
 .DS_Store
 coverage/
 .vitest/
+reports/
+# dist/ IS committed: the composite Action's action.yml points at dist/index.js,
+# so the built bundle must ship in the repo for `uses: ./` and tag-pinned refs.
+# Keep it out of the ignore list on purpose.

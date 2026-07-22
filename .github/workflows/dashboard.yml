@@ -18,20 +18,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@<pin-sha>
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0   # need full history to read the data branch
-      - uses: actions/setup-node@<pin-sha>
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '20'
       - run: npm ci
-      - run: npm run build
+      - run: npm run build:dashboard
       - name: Rebuild dashboard + prune old history
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node dist/dashboard.js --window-days 90
-      - uses: actions/configure-pages@<pin-sha>
-      - uses: actions/upload-pages-artifact@<pin-sha>
+        run: node dist/dashboard/index.js --window-days 90 --out-dir dashboard-out
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: dashboard-out
-      - uses: actions/deploy-pages@<pin-sha>
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

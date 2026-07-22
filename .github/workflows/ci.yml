@@ -12,19 +12,56 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # NOTE: SHA-pin these in a real release. Tags are mutable and unsafe
-      # post-CVE-2025-30066. Replace <pin-sha> with the resolved commit.
-      - uses: actions/checkout@<pin-sha>
-      - uses: actions/setup-node@<pin-sha>
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '20'
           cache: 'npm'
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
+      # Emit JUnit XML so the dogfood job (and FlakeTrack itself) can ingest it.
       - run: npm test
+        env:
+          CI: 'true'
       - run: npm run build
-      - uses: actions/upload-artifact@<pin-sha>
+      - run: npm run build:dashboard
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: dist
           path: dist/
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: junit-reports
+          path: reports/
+
+  # Dogfood: run FlakeTrack against its own test suite's JUnit output and write
+  # the history to this repo's flaketrack-data branch. This is the real-world
+  # test the convergence rules demand — FlakeTrack eating its own dogfood.
+  dogfood:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dist
+          path: dist
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: junit-reports
+          path: reports
+      - name: Run FlakeTrack on its own test output
+        uses: ./
+        with:
+          junit-paths: 'reports/**/*.xml'
+          data-branch: flaketrack-data

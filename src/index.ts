@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { parseJUnitXml } from './ingest/junit';
 import { detectFlakes, topFlakiest } from './detect/flake';
 import { emitQuarantineList, quarantineToMarkdown } from './quarantine/emit';
+import { syncIssues, trackerFromEnv } from './issues/digest';
 import { GitWriter } from './history/git-writer';
 import type { RunRecord, TestStatus } from './types';
 
@@ -78,6 +79,20 @@ export async function run(): Promise<void> {
   const history = writer.readHistory();
   const assessments = detectFlakes(history, { threshold, minRuns, windowDays });
   const top = topFlakiest(assessments, 10);
+
+  // Sync tracking issues (daily-digest, gate condition #5). No-op when running
+  // outside a GitHub Actions context (no token/repo), so local smoke tests and
+  // the dogfood dashboard build don't spam the Issue tracker.
+  const tracker = trackerFromEnv();
+  if (tracker) {
+    const digest = await syncIssues(tracker, assessments).catch((e: unknown) => {
+      core.warning(`Issue digest sync failed: ${(e as Error).message}`);
+      return { opened: 0, updated: 0, closed: 0 };
+    });
+    core.info(
+      `FlakeTrack issues: ${digest.opened} opened, ${digest.updated} updated, ${digest.closed} closed.`,
+    );
+  }
 
   // Emit the quarantine artifact (read-only output — no source mutation).
   const quarantine = emitQuarantineList(assessments);

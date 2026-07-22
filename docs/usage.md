@@ -42,7 +42,7 @@ FlakeTrack never mutates your test source. Instead it emits a machine-readable
 list of flaky tests as an action output. A typical consumer step:
 
 ```yaml
-- uses: cbrown350/flaketrack@<pinned-sha>
+- uses: cbrown350/flaketrack@3cad8bbe5618f68a24fb3804b49155ee15b12b2e # v0.1.1
   id: flake
   with:
     junit-paths: 'reports/**/*.xml'
@@ -73,7 +73,7 @@ dashboard job prunes records older than the window on every run, so the
 Always pin FlakeTrack to a commit SHA in your workflow:
 
 ```yaml
-- uses: cbrown350/flaketrack@<full-40-char-sha>
+- uses: cbrown350/flaketrack@3cad8bbe5618f68a24fb3804b49155ee15b12b2e # v0.1.1
 ```
 
 Releases are also attested with build provenance via GitHub Artifact Attestations.

@@ -45,7 +45,7 @@ jobs:
       - run: npm ci
       - name: Run tests and write a JUnit report
         run: npm test -- --reporter=junit --outputFile=reports/junit.xml
-      - uses: cbrown350/flaketrack@<full-40-char-sha>
+      - uses: cbrown350/flaketrack@3cad8bbe5618f68a24fb3804b49155ee15b12b2e # v0.1.1
         with:
           junit-paths: 'reports/**/*.xml'
 ```

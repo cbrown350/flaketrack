@@ -62,7 +62,7 @@ The repository also includes a separate workflow that can build a static dashboa
 The Action does not modify test source. Quarantine is a machine-readable output, so the repository decides how to consume it.
 
 ```yaml
-- uses: cbrown350/flaketrack@<full-40-char-sha> # v0.1.1
+- uses: cbrown350/flaketrack@3cad8bbe5618f68a24fb3804b49155ee15b12b2e # v0.1.1
   with:
     junit-paths: 'reports/**/*.xml'
 ```
@@ -99,7 +99,7 @@ It is dogfooded on FlakeTrack’s own CI. That is a starting point, not a claim 
 ## Try it or contribute
 
 - Repository and setup guide: https://github.com/cbrown350/flaketrack
-- Release reference: `cbrown350/flaketrack@<full-40-char-sha>` (v0.1.1)
+- Release reference: `cbrown350/flaketrack@3cad8bbe5618f68a24fb3804b49155ee15b12b2e` (v0.1.1)
 - Public project dashboard: https://cbrown350.github.io/flaketrack/
 
 FlakeTrack is MIT licensed. If it is useful, optional support is available through GitHub Sponsors; there are no paid tiers or support promises.

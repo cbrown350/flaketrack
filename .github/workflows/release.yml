@@ -23,7 +23,7 @@ jobs:
       - run: npm run all
       # Build provenance: attests that the dist/ artifact was built from this
       # exact source on this runner. Post-CVE-2025-30066 supply-chain hygiene.
-      - uses: actions/attest-build-provenance@96b4a1ef7235a096b17240c259729fdd70c83d45 # v2
+      - uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
         with:
           subject-path: dist/index.js
       - name: Create release

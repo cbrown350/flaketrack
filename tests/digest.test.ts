@@ -183,7 +183,8 @@ describe('syncIssues', () => {
     expect(calls.filter((c) => c.op === 'update')).toHaveLength(1);
   });
 
-  it('continues gracefully when listForRepo fails (opens new issues anyway)', async () => {
+  it('aborts the sync (creates no duplicate issues) when listForRepo fails', async () => {
+    const calls: { op: string; payload: Record<string, unknown> }[] = [];
     const failingOctokit: OctokitLike = {
       rest: {
         issues: {
@@ -203,14 +204,15 @@ describe('syncIssues', () => {
         },
       },
     };
-    const calls: { op: string; payload: Record<string, unknown> }[] = [];
     const res = await syncIssues(
       { octokit: failingOctokit, owner: 'o', repo: 'r' },
       [flaky('a#1')],
       { now: new Date('2026-07-22T00:00:00.000Z') },
     );
-    expect(res.opened).toBe(1);
-    expect(calls.filter((c) => c.op === 'create')).toHaveLength(1);
+    // Must NOT create anything — treating an unknown issue set as empty would
+    // spawn a duplicate tracking issue on every burst-limited run.
+    expect(res).toEqual({ opened: 0, updated: 0, closed: 0 });
+    expect(calls).toHaveLength(0);
   });
 
   it('closes an issue for a test that has vanished from history entirely', async () => {

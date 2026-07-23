@@ -50971,19 +50971,28 @@ async function syncIssues(tracker, assessments, opts = {}) {
     const recoveryWindowMs = opts.recoveryWindowMs ?? RECOVERY_WINDOW_MS;
     const updateIntervalMs = opts.updateIntervalMs ?? UPDATE_INTERVAL_MS;
     await ensureLabel(tracker);
-    const existing = await tracker.octokit.rest.issues
-        .listForRepo({
-        owner: tracker.owner,
-        repo: tracker.repo,
-        labels: LABEL,
-        state: 'open',
-        per_page: 100,
-    })
-        .then((r) => r.data)
-        .catch((e) => {
-        warning(`Failed to list tracking issues: ${e.message}`);
-        return [];
-    });
+    // If the listing call fails (e.g. GitHub secondary rate limit), ABORT this
+    // sync rather than continuing with an empty issue set. Treating "unknown"
+    // as "no existing issues" would create a duplicate tracking issue for every
+    // flaky test on every run that hits the burst limit — a silent, compounding
+    // corruption. Skipping one cycle is strictly safer than risking duplicates.
+    let existing;
+    try {
+        existing = await tracker.octokit.rest.issues
+            .listForRepo({
+            owner: tracker.owner,
+            repo: tracker.repo,
+            labels: LABEL,
+            state: 'open',
+            per_page: 100,
+        })
+            .then((r) => r.data);
+    }
+    catch (e) {
+        warning(`Aborted issue sync: could not list existing tracking issues (${e.message}). ` +
+            `Skipping this cycle to avoid creating duplicate tracking issues.`);
+        return { opened: 0, updated: 0, closed: 0 };
+    }
     const byTitle = new Map(existing.map((i) => [i.title, i]));
     const result = { opened: 0, updated: 0, closed: 0 };
     const flaky = assessments.filter((a) => a.isFlaky);
